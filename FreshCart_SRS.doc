@@ -1,0 +1,199 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+    <meta charset="utf-8">
+    <title>Software Requirements Specification - FreshCart</title>
+    <style>
+        body {
+            font-family: 'Calibri', 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #000000;
+        }
+        .cover-page {
+            text-align: center;
+            margin-top: 150px;
+            page-break-after: always;
+        }
+        .title {
+            font-size: 36pt;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .subtitle {
+            font-size: 24pt;
+            color: #34495e;
+            margin-top: 20px;
+        }
+        .date-version {
+            margin-top: 50px;
+            font-size: 14pt;
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 20pt;
+            border-bottom: 2px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h2 {
+            color: #34495e;
+            font-size: 16pt;
+            margin-top: 20px;
+        }
+        h3 {
+            color: #2980b9;
+            font-size: 14pt;
+            margin-top: 15px;
+        }
+        p {
+            font-size: 12pt;
+            margin: 10px 0;
+            text-align: justify;
+        }
+        ul, ol {
+            font-size: 12pt;
+            margin-bottom: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            font-size: 11pt;
+        }
+        th, td {
+            border: 1px solid #7f8c8d;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #ecf0f1;
+            font-weight: bold;
+        }
+        .page-break {
+            page-break-before: always;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cover Page -->
+    <div class="cover-page">
+        <div class="title">FreshCart</div>
+        <div class="subtitle">Software Requirements Specification (SRS)</div>
+        <div class="date-version">
+            <p><strong>Version:</strong> 1.0</p>
+            <p><strong>Date:</strong> March 2026</p>
+            <p><strong>Prepared For:</strong> Development & Stakeholder Team</p>
+            <p><strong>Prepared By:</strong> Agent Team</p>
+        </div>
+    </div>
+
+    <h1>1. Introduction</h1>
+    
+    <h2>1.1 Purpose</h2>
+    <p>This document specifies the software requirements for the FreshCart grocery application. It provides a comprehensive description of the system's intended behavior, defining functional and non-functional requirements to guide the development and integration teams.</p>
+    
+    <h2>1.2 Document Conventions</h2>
+    <p>This document follows standard IEEE formatting. All requirements are stated as "shall" or "must," denoting mandatory features.</p>
+
+    <h2>1.3 Intended Audience</h2>
+    <p>The intended audience for this document includes project managers, software developers (frontend and backend), quality assurance testers, and project stakeholders.</p>
+
+    <h2>1.4 Scope</h2>
+    <p>The FreshCart application is a web-based e-commerce platform that allows customers to browse a curated list of grocery items, filter by categories, add items to a digital shopping cart, view dynamic order summaries including delivery thresholds, and securely place orders for delivery. The system is designed to provide real-time feedback and a seamless user experience within a single-page architecture.</p>
+
+    <div class="page-break"></div>
+
+    <h1>2. Overall Description</h1>
+
+    <h2>2.1 Product Perspective</h2>
+    <p>FreshCart is a self-contained web application operating on a Node.js/Express.js backend and a Vanilla JavaScript frontend. It utilizes an in-memory data structure for maintaining state, avoiding the overhead of external databases for this iteration to focus on delivery speed and frontend-backend RESTful integration.</p>
+
+    <h2>2.2 Product Functions</h2>
+    <ul>
+        <li><strong>Product Browsing:</strong> Users can view all grocery items in a grid layout.</li>
+        <li><strong>Filtering & Search:</strong> Users can filter products by defined categories (e.g., Dairy, Fruits, Snacks) and search by keywords.</li>
+        <li><strong>Cart Management:</strong> Users can dynamically add items, update quantities, and remove items with immediate price recalculations.</li>
+        <li><strong>Checkout & Ordering:</strong> Users can input delivery details and finalize the order with immediate success confirmation.</li>
+    </ul>
+
+    <h2>2.3 User Classes and Characteristics</h2>
+    <ul>
+        <li><strong>Customers:</strong> Everyday consumers looking for a fast, responsive, and visually appealing way to purchase groceries for home delivery.</li>
+    </ul>
+
+    <h2>2.4 Operating Environment</h2>
+    <p>The application shall operate on modern web browsers (Chrome, Firefox, Safari, Edge) supporting ES6 JavaScript. The server shall run on a Node.js runtime environment (v14 or higher).</p>
+
+    <div class="page-break"></div>
+
+    <h1>3. System Features</h1>
+
+    <h2>3.1 Product Listing & Filtering</h2>
+    <p><strong>Description:</strong> The system displays all available inventory to the user.</p>
+    <ul>
+        <li><strong>REQ-1.1:</strong> The system shall display products with details including name, description, unit price, stock status, and an illustrative emoji.</li>
+        <li><strong>REQ-1.2:</strong> The system shall allow users to filter products by tapping category pills.</li>
+        <li><strong>REQ-1.3:</strong> The system shall provide a real-time text search that filters products by name and description.</li>
+    </ul>
+
+    <h2>3.2 Shopping Cart Operations</h2>
+    <p><strong>Description:</strong> The virtual basket that holds items intended for purchase.</p>
+    <ul>
+        <li><strong>REQ-2.1:</strong> Users shall be able to add an in-stock item to the cart from the product grid.</li>
+        <li><strong>REQ-2.2:</strong> The cart must recalculate the subtotal, calculate a $4.99 delivery fee, and drop the delivery fee to $0 if the subtotal meets or exceeds $25.</li>
+        <li><strong>REQ-2.3:</strong> The system shall visually notify the user via toaster messages when an item is added or removed.</li>
+        <li><strong>REQ-2.4:</strong> A dynamic badge on the cart navigation icon must reflect the total aggregate item count.</li>
+    </ul>
+
+    <h2>3.3 Order Placement (Checkout)</h2>
+    <p><strong>Description:</strong> The flow where users finalize their cart and confirm delivery details.</p>
+    <ul>
+        <li><strong>REQ-3.1:</strong> The system shall enforce form validation for full name, email, phone, and delivery address.</li>
+        <li><strong>REQ-3.2:</strong> Upon successful submission, the system shall assign a unique, randomly generated Order ID.</li>
+        <li><strong>REQ-3.3:</strong> The cart shall automatically clear upon successful order placement.</li>
+        <li><strong>REQ-3.4:</strong> The system shall display an order confirmation page summarizing the purchase, order ID, and estimated delivery time.</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <h1>4. External Interface Requirements</h1>
+
+    <h2>4.1 User Interfaces</h2>
+    <p>The UI must feature a premium, glassmorphism-inspired dark mode aesthetic using "Inter" font, smooth hover micro-animations, and responsive layouts capable of adapting to mobile, tablet, and desktop screens.</p>
+
+    <h2>4.2 Software Interfaces</h2>
+    <p>The frontend shall communicate with the Node.js backend exclusively via RESTful JSON APIs using the standard Fetch API.</p>
+
+    <h2>4.3 APIs</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Endpoint</th>
+                <th>Method</th>
+                <th>Purpose</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><code>/api/products</code></td><td>GET</td><td>Retrieve product list (supports ?category & ?search params)</td></tr>
+            <tr><td><code>/api/categories</code></td><td>GET</td><td>Retrieve list of categories with aggregate counts</td></tr>
+            <tr><td><code>/api/cart</code></td><td>GET, POST, PUT, DELETE</td><td>Manage the user's volatile cart state</td></tr>
+            <tr><td><code>/api/orders</code></td><td>POST, GET</td><td>Submit new orders and fetch historical confirmations</td></tr>
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h1>5. Non-Functional Requirements</h1>
+
+    <h2>5.1 Performance Requirements</h2>
+    <p>API responses must return within 200ms under normal load to maintain UI snappiness. The frontend shall use client-side routing (hash-based) to ensure zero page reloads.</p>
+
+    <h2>5.2 Security Requirements</h2>
+    <p>Data validated on the client side must also be validated on the backend before being written to memory buffers to prevent malformed orders.</p>
+
+    <h2>5.3 Usability</h2>
+    <p>The system must incorporate obvious visual feedback (Toast messages, cart count toggles, button loading states during checkout) to guide the user naturally.</p>
+
+</body>
+</html>
