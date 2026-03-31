@@ -2,7 +2,11 @@
 // FreshCart — API Client
 // ═══════════════════════════════════════════════════════════
 
-const API_BASE = '/api';
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+// Change the URL below when your backend is deployed on Render
+const API_BASE = isLocal 
+  ? 'http://localhost:3000/api' 
+  : 'https://your-backend-service-name.onrender.com/api';
 
 const API = {
   // ─── Products ──────────────────────────────────────────

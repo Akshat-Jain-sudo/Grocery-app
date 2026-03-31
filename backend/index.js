@@ -14,8 +14,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// ─── Static Files ─────────────────────────────────────────
-app.use(express.static(path.join(__dirname, '..', 'public')));
+// Frontend is served separately
 
 // ─── API Routes ───────────────────────────────────────────
 app.use('/api/products', productRoutes);
@@ -32,9 +31,14 @@ app.get('/api/categories', (req, res) => {
   res.json({ success: true, data: enriched });
 });
 
-// ─── SPA Fallback ─────────────────────────────────────────
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+// ─── Health Check ─────────────────────────────────────────
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', message: 'FreshCart API Backend is running' });
+});
+
+// Fallback for unhandled routes
+app.use((req, res) => {
+  res.status(404).json({ success: false, error: 'API Endpoint Not Found' });
 });
 
 // ─── Error Handler ────────────────────────────────────────
@@ -45,9 +49,9 @@ app.listen(PORT, () => {
   console.log('');
   console.log('  ╔════════════════════════════════════════╗');
   console.log('  ║                                        ║');
-  console.log('  ║   🛒  FreshCart Grocery App             ║');
+  console.log('  ║   🛒  FreshCart API Backend             ║');
   console.log('  ║                                        ║');
-  console.log(`  ║   → http://localhost:${PORT}              ║`);
+  console.log(`  ║   → API: http://localhost:${PORT}/api     ║`);
   console.log('  ║                                        ║');
   console.log('  ╚════════════════════════════════════════╝');
   console.log('');
